@@ -1,0 +1,20 @@
+{
+  "name": "skychat-cli",
+  "version": "1.0.0",
+  "description": "A Command-line interface (CLI) for the Skychat",
+  "main": "index.js",
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "install": "^0.13.0",
+    "npm": "^6.14.8"
+  },
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "skychat-node": "^1.0.2"
+  },
+  "scripts": {
+    "dev": "node src/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

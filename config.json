@@ -1,0 +1,43 @@
+{
+  "chatroom": {
+    "closeButton": {
+      "backgroundColor": "green",
+      "foregroundColor": "white"
+    },
+    "messagesBox": {
+      "backgroundColor": "black",
+      "foregroundColor": "white",
+      "border": "line"
+    },
+    "connectedList": {
+      "backgroundColor": "black",
+      "foregroundColor": "white",
+      "scrollBarColor": "black",
+      "border": "line"
+    },
+    "messageInput": {
+      "backgroundColor": "black",
+      "foregroundColor": "white",
+      "border": "line"
+    },
+    "scrollbar": {
+      "color": "lightgray"
+    }
+  },
+  "login": {
+    "loginWindow": {
+      "backgroundColor": "black",
+      "foregroundColor": "white"
+    },
+    "input": {
+      "backgroundColor": "white",
+      "foregroundColor": "black"
+    },
+    "submitButton": {
+      "backgroundColor": "blue",
+      "foregroundColor": "white",
+      "hoverBackgroundcolor": "red",
+      "focusBackgroundColor": "red"
+    }
+  }
+}
