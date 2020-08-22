@@ -38,6 +38,10 @@
       "foregroundColor": "white",
       "hoverBackgroundcolor": "red",
       "focusBackgroundColor": "red"
+    },
+    "closeButton": {
+      "backgroundColor": "green",
+      "foregroundColor": "white"
     }
   }
 }

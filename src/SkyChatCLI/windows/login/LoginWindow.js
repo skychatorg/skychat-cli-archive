@@ -17,8 +17,8 @@ class LoginWindow extends Window {
             keys: true,
             left: 'center',
             top: 'center',
-            width: '50%',
-            height: '60%',
+            width: '60%',
+            height: '70%',
             autoNext: true,
             border: 'line',
             style: {
@@ -40,12 +40,39 @@ class LoginWindow extends Window {
             content: 'SKYCHAT',
         })
 
+        /// Close button
+        this.close = blessed.button({
+            parent: this.form,
+            mouse: true,
+            keys: true,
+            shrink: true,
+            padding: {
+                left: 1,
+                right: 1
+            },
+            right: 0,
+            top: 0,
+            name: 'close',
+            content: 'X',
+            style: {
+                bg: this.config.chatroom.closeButton.backgroundColor,
+                fg: this.config.chatroom.closeButton.foregroundColor
+            }
+        });
+
+        // Exit the program when the button is clicked
+        this.close.on('press', function() {
+            process.exit(0)
+        });
+
         // Error message
         this.errorMessage = blessed.text({
             parent: this.form,
             bottom: 5,
             height: 3,
+            width: '80%',
             left: 'center',
+            tags: true,
             bg: this.config.login.loginWindow.backgroundColor,
             fg: this.config.login.loginWindow.foregroundColor,
             content: '',
@@ -151,16 +178,11 @@ class LoginWindow extends Window {
                 that.showErrorMessage('Please enter your username and password')
             }
         });
-
-        // Exit the login window
-        this.screen.key("q", "C-c", function() {
-            process.exit(0);
-        });
     }
 
     // Display an error message
     showErrorMessage(errMessage) {
-        this.errorMessage.content = `Error : ${errMessage.toString()}`
+        this.errorMessage.content = `{center}Error : ${errMessage.toString()}{/center}`
         this.screen.render()
     }
 

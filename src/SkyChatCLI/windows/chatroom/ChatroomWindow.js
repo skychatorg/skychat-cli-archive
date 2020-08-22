@@ -1,11 +1,12 @@
-const Window = require('./../Window')
-const blessed = require('blessed')
+const Window = require('./../Window');
+const blessed = require('blessed');
+const Message = require('./Message');
 
 class ChatroomWindow extends Window {
 
     constructor(screen, skyChatClient) {
-        super(screen, skyChatClient)
-        this.client = skyChatClient
+        super(screen, skyChatClient);
+        this.client = skyChatClient;
     }
 
     init() {
@@ -36,8 +37,8 @@ class ChatroomWindow extends Window {
             name: 'close',
             content: 'X',
             style: {
-                bg: this.config.chatroom.closeButton.backgroundColor,
-                fg: this.config.chatroom.closeButton.foregroundColor
+                bg: this.config.login.closeButton.backgroundColor,
+                fg: this.config.login.closeButton.foregroundColor
             }
         });
 
@@ -83,6 +84,7 @@ class ChatroomWindow extends Window {
                 left: 1,
                 right: 1,
             },
+            tags: true,
             left: 1,
             right: 21,
             bottom: 5,
@@ -118,6 +120,7 @@ class ChatroomWindow extends Window {
             width: 20,
             bottom: 5,
             top: 3,
+            tags: true,
             bg: this.config.chatroom.connectedList.backgroundColor,
             fg: this.config.chatroom.connectedList.foregroundColor,
         })
@@ -131,6 +134,7 @@ class ChatroomWindow extends Window {
         this.updateMessages()
 
         // Update messages when a new message is received
+        this.client.on('message', this.updateMessages.bind(this));
         this.client.on('messages', this.updateMessages.bind(this));
 
         // Updates the list of logged-in users when one logs out or logs in
@@ -147,18 +151,9 @@ class ChatroomWindow extends Window {
         let messages = ""
 
         for (let i = 0; i < messagesJSON.length; i++) {
-            let obj = messagesJSON[i];
-            let messageTime = new Date(obj.createdTimestamp * 1000);
-
-            // Padding the hours, minutes and zero with 0
-            let messageTimeHours = ("0" + messageTime.getHours()).slice(-2)
-            let messageTimeMinutes = ("0" + messageTime.getMinutes()).slice(-2)
-            let messageTimeSeconds = ("0" + messageTime.getSeconds()).slice(-2)
-
-            // The date of the message is in the format hh:mm:ss
-            let formattedTime = `${messageTimeHours}:${messageTimeMinutes}:${messageTimeSeconds}`;
-            // The message contains the date, the username and the content
-            messages += `[${formattedTime}] ${obj.user.username.toString()}: ${obj.content.toString()}\n`
+            // Format the message
+            let message = new Message(messagesJSON[i], this.client.session).format()
+            messages += message
         }
 
         this.messagesBox.setContent(messages)
@@ -178,7 +173,8 @@ class ChatroomWindow extends Window {
         let connectedUsers = ""
         for (let i = 0; i < connectedUsersJSON.length; i++) {
             let user = connectedUsersJSON[i];
-            connectedUsers += `- ${user.user.username}\n`
+            let userColor = user.user.data.plugins.color.main
+            connectedUsers += `\n- {${userColor}-fg}${user.user.username}{/${userColor}-fg}`
         }
         this.connectedList.setContent(connectedUsers)
         this.screen.render()
